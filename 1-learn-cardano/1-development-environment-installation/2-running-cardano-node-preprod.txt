@@ -1,0 +1,59 @@
+---------------------------------------------------------------
+REFERENCE
+---------------------------------------------------------------
+https://book.world.dev.cardano.org/environments.html#preprod-testnet
+
+---------------------------------------------------------------
+CREATE NEW CONFIGURATION DIRECTORY 
+---------------------------------------------------------------
+mkdir -p $HOME/cardano-db-preprod/db
+cd $HOME/cardano-db-preprod
+
+---------------------------------------------------------------
+DOWNLOAD CARDANO CONFIGURATION FILES
+---------------------------------------------------------------
+Download / save-as the all files at the link below
+
+https://book.world.dev.cardano.org/environments/preprod/config.json
+https://book.world.dev.cardano.org/environments/preprod/db-sync-config.json
+https://book.world.dev.cardano.org/environments/preprod/submit-api-config.json
+https://book.world.dev.cardano.org/environments/preprod/topology.json
+https://book.world.dev.cardano.org/environments/preprod/byron-genesis.json
+https://book.world.dev.cardano.org/environments/preprod/shelley-genesis.json
+https://book.world.dev.cardano.org/environments/preprod/alonzo-genesis.json
+
+In the address bar, type \\wsl$ and press Enter. This will open the wsl$ network share.
+Save the all files to \\wsl.localhost\Ubuntu-22.04\home\ivandito\cardano-db-preprod.
+
+---------------------------------------------------------------
+Add and Edit Environment $HOME/.bashrc
+---------------------------------------------------------------
+nano $HOME/.bashrc
+
+export CARDANO_NODE_SOCKET_PATH="$HOME/cardano/db/node.socket"
+export CARDANO_NODE_SOCKET_PATH="$HOME/cardano-db-preprod/db/node.socket"
+
+---------------------------------------------------------------
+Create start_node_preprod.sh
+---------------------------------------------------------------
+cd $HOME
+nano start-node-preprod.sh
+copy:
+cardano-node run \
+        --config $HOME/cardano-db-preprod/config.json \
+        --database-path $HOME/cardano-db-preprod/db/ \
+        --socket-path $HOME/cardano-db-preprod/db/node.socket \
+        --host-addr 0.0.0.0 \
+        --port 3001 \
+        --topology $HOME/cardano-db-preprod/topology.json
+
+---------------------------------------------------------------
+Running Cardano Node
+---------------------------------------------------------------
+. start-node-preprod.sh
+
+---------------------------------------------------------------
+Test CLI
+---------------------------------------------------------------
+Open new-wsl / new-terminal
+cardano-cli query tip --testnet-magic 1

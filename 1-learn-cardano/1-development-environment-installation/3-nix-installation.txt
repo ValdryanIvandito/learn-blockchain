@@ -1,0 +1,96 @@
+---------------------------------------------------------------
+00 - REFERENCE
+---------------------------------------------------------------
+https://plutus-community.readthedocs.io/en/latest/#Environment/Build/WindowsWSL/
+
+---------------------------------------------------------------
+00 - Install Node-JS && NPM
+---------------------------------------------------------------
+sudo apt update
+sudo apt install nodejs
+check version:
+node -v
+sudo apt install npm
+
+---------------------------------------------------------------
+01 - Install NIX OS
+---------------------------------------------------------------
+curl -L https://nixos.org/nix/install |sh
+
+Result :
+. /home/ivandito/.nix-profile/etc/profile.d/nix.sh
+
+---------------------------------------------------------------
+02 - Add NIX env
+---------------------------------------------------------------
+nano ~/.bashrc
+. ~/.nix-profile/etc/profile.d/nix.sh
+.nix-profile/etc/profile.d/nix.sh
+
+
+
+Test Run :
+. ~/.bashrc
+nix-shell --version
+
+---------------------------------------------------------------
+03 - Edit the /etc/nix/nix.conf using root
+---------------------------------------------------------------
+sudo mkdir -p /etc/nix
+
+sudo nano /etc/nix/nix.conf
+copy :  
+substituters        = https://hydra.iohk.io https://iohk.cachix.org https://cache.nixos.org/
+trusted-public-keys = hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ= iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo= cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=
+
+---------------------------------------------------------------
+04 - Download the plutus-apps repository
+---------------------------------------------------------------
+git clone https://github.com/input-output-hk/plutus-apps
+git clone https://github.com/input-output-hk/plutus-pioneer-program
+
+---------------------------------------------------------------
+05 - Choose the version of the Plutus Playground
+---------------------------------------------------------------
+cd $HOME/plutus-apps
+git checkout 41149926c108c71831cfe8d244c83b0ee4bf5c8a
+nix-shell
+
+[nix-shell:~/plutus-apps]$ exit
+:~/plutus-apps$ 
+
+---------------------------------------------------------------
+06 - Launch Plutus server (Engine Plutus)
+---------------------------------------------------------------
+cd $HOME/plutus-apps
+nix-shell
+cd $HOME/plutus-apps/plutus-playground-server
+plutus-playground-server
+
+Kalau sudah sukses load:
+------------------------
+[Info] Running: (Nothing,Webserver {_port = 8080, _maxInterpretationTime = 80s})
+Initializing Context
+Initializing Context
+Warning: GITHUB_CLIENT_ID not set
+Warning: GITHUB_CLIENT_SECRET not set
+Warning: JWT_SIGNATURE not set
+Interpreter ready
+
+---------------------------------------------------------------
+07 - Launch Plutus client (webserver)
+---------------------------------------------------------------
+Open another terminal
+cd $HOME/plutus-apps
+nix-shell
+cd $HOME/plutus-apps/plutus-playground-client
+npm run start
+
+---------------------------------------------------------------
+08 - Open PLUTUS PLAYGROUND (browser)
+---------------------------------------------------------------
+https://localhost:8009/
+Keluar warning dikarenakan https nya gak ada certificate
+click Advanced
+click Proceed to localhost (unsafe)
+
