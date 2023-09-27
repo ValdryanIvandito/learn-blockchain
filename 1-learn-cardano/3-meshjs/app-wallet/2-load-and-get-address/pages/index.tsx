@@ -4,11 +4,14 @@ import { BlockfrostProvider } from '@meshsdk/core';
 
 export default function Home() {
   const [seedPhrases, setSeedPhrases] = useState(['']);
+  const [paymentAddress, setPaymentAddress] = useState('');
+  const [rewardAddress, setRewardAddress] = useState('');
   const blockchainProvider = new BlockfrostProvider('preprodMA1RD10G7YQMdl46Bsi3mOQv5vwuXQCE');
  
-  function clickHandler() {
+  async function clickHandler() {
     const mnemonic = AppWallet.brew();
-    console.log(mnemonic);
+    // console.log(mnemonic);
+
     setSeedPhrases(mnemonic);
 
     const wallet = new AppWallet({
@@ -47,27 +50,55 @@ export default function Home() {
       },
     });
   
-    const address = wallet.getPaymentAddress();
-    console.log(address);
+    const getPaymentAddress = wallet.getPaymentAddress();
+    const getRewardAddress = wallet.getRewardAddress();
+    // console.log(getPaymentAddress);
+    // console.log(getRewardAddress);
+
+    setPaymentAddress(getPaymentAddress);
+    setRewardAddress(getRewardAddress);
   }
 
   return (
-    <div>
-      <div className="flex justify-center items-center my-4">
-        <div className="border border-slate-500 w-40 h-145 text-center">
-          {seedPhrases.map((phrase, index) => (
-            <p key={index}>{phrase}</p>
-          ))}
+    <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center border border-slate-500 rounded-2xl shadow-xl p-4 m-2">
+        <div className="flex justify-center items-center m-2">
+          <div>
+            <h1 className="text-center font-bold">Seed Phares :</h1>
+            <div className="border border-slate-500 w-40 h-145 text-center">
+              {seedPhrases.map((phrase, index) => (
+                <p key={index}>{phrase}</p>
+              ))}
+            </div>
+          </div>
         </div>
-      </div>
-      <div className="flex justify-center items-center">
-        <button
-          type="button"
-          className="bg-blue-500 text-white font-bold rounded-xl w-56 h-10 hover:bg-blue-700"
-          onClick={clickHandler}
-        >
-          Generate SeedPhrases
-        </button>
+        <div className="m-2">
+          <div className="flex justify-center items-center mb-4">
+            <div>
+              <h1 className="text-center font-bold">Payment Address :</h1>
+              <div className="border border-slate-500 w-145 h-10 text-center">
+                {paymentAddress}
+              </div>
+            </div>
+          </div>
+          <div className="flex justify-center items-center mb-4">
+            <div>
+              <h1 className="text-center font-bold">Payment Address :</h1>
+              <div className="border border-slate-500 w-145 h-10 text-center">
+                {rewardAddress}
+              </div>
+            </div>
+          </div>
+          <div className="flex justify-center items-center">
+            <button
+              type="button"
+              className="bg-blue-500 text-white font-bold rounded-xl w-56 h-10 hover:bg-blue-700"
+              onClick={clickHandler}
+            >
+              Generate Wallet
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
