@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { NextPage } from "next";
-import { useWallet } from '@meshsdk/react';
-import { CardanoWallet } from '@meshsdk/react';
+import { useWallet } from "@meshsdk/react";
+import { CardanoWallet } from "@meshsdk/react";
 
 const Home: NextPage = () => {
   const { connected, wallet } = useWallet();
@@ -9,6 +9,8 @@ const Home: NextPage = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   async function getAssets() {
+    setAssets("");
+
     if (wallet) {
       setLoading(true);
       const _assets = await wallet.getAssets();

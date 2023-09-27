@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { AppWallet } from '@meshsdk/core';
+import { useState } from "react";
+import { AppWallet } from "@meshsdk/core";
 
 export default function Home() {
-  const [seedPhrases, setSeedPhrases] = useState(['']);
+  const [seedPhrases, setSeedPhrases] = useState([""]);
 
   function clickHandler() {
     const mnemonic = AppWallet.brew();
@@ -27,7 +27,7 @@ export default function Home() {
         <div className="flex justify-center items-center my-2">
           <button
             type="button"
-            className="bg-blue-500 text-white font-bold rounded-xl w-56 h-10 hover:bg-blue-700"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded-xl w-56 h-10"
             onClick={clickHandler}
           >
             Generate SeedPhrases
