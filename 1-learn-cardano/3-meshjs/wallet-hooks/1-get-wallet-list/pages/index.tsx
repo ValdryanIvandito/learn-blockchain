@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import { useWalletList } from "@meshsdk/react";
 
-export default function Page() {
+export default function Home() {
   const wallets = useWalletList();
+
+  useEffect(() => {
+    console.log("Wallet list:", wallets);
+  }, [wallets]);
 
   return (
     <div className="flex justify-center items-center h-screen bg-black text-white">
@@ -13,7 +17,7 @@ export default function Page() {
             return (
               <div key={i}>
                 <div className="flex items-center justify-center">
-                  <div className="bg-gray-700 rounded-xl mx-2 my-4 p-3 hover:border hover:border-white">
+                  <div className="border border-black bg-gray-700 rounded-xl mx-2 my-4 p-3 hover:border hover:border-white">
                     <img src={wallet.icon} style={{ width: "48px" }} />
                     <b>{wallet.name}</b>
                   </div>
